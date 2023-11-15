@@ -9,6 +9,8 @@ TBOLD = "\033[1m"
 TNOEFFECT = "\033[0m"
 play_again = "y"
 
+temp = 0
+
 while play_again == "y":
     print("\n\n")
     max_number = input("What is the starting maximum number you wish the randomiser to be able to choose (3 - 100): ").strip()
@@ -71,16 +73,22 @@ while play_again == "y":
 
         loop = len(operations)
         for x in range(0, 3):
-            a = random.choice(operations)
-            operations.remove(a)
-            print(str(f"{round(a, 6):,}"))
+            successful = False
+            while not successful:
+                a = random.choice(operations)
+                operations.remove(a)
+                try:
+                    if len(str(a)) < 100:
+                        print(str(f"{round(a, 6):,}"))
+                        successful = True
+                except:
+                    pass
 
-        print("\n\n")
-
-        print(TBOLD + f"The first number is {num1}\n" + TNOEFFECT)
+        print(TBOLD + f"\nThe first number is {num1}\n" + TNOEFFECT)
 
         # guess
         g = input(f"What is the second number (you have {lives} lives remaining): ")
+
         while not g.isdigit() or int(g) == 0:
             print("Please enter a whole positive number\n")
             g = input("What is the second number: ")
